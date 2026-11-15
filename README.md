@@ -27,7 +27,7 @@ halloween-certificate-api/
 ├── assets/
 │   ├── certificate_template.png   # Your uploaded template
 │   └── fonts/                     # Creepster, Cinzel, Great Vibes, Poppins
-├── vercel.json               # Rewrites all routes to api/index.py
+├── vercel.json               # Functions config only (NO rewrites — see deploy note)
 ├── requirements.txt
 └── README.md
 ```
@@ -130,8 +130,17 @@ vercel --prod
 
 1. Push this folder to a GitHub repo.
 2. Go to [vercel.com/new](https://vercel.com/new) → import the repo.
-3. Framework preset: **Other** (no build command, no output directory).
-4. Deploy — Vercel auto-detects `api/index.py` + `vercel.json`.
+3. Framework preset: **Flask** (important — not "Other").
+4. Deploy — Vercel auto-detects the Flask app in `api/index.py` / `app.py`
+   and routes every request to it with its original path.
+
+> ⚠️ Do **not** add a catch-all rewrite (`/(.*)` → `/api/index.py`) to
+> `vercel.json`. Vercel's Flask integration already routes all requests to
+> Flask; a rewrite makes Flask receive `PATH_INFO=/api/index.py` for every
+> request, which has no route — so every URL returns Flask's 404 page.
+> The included `vercel.json` intentionally has **no rewrites**, only
+> `functions` config to bundle `assets/**` (template + fonts) and set
+> `maxDuration`.
 
 > No environment variables are needed. Pillow and Flask are installed
 > automatically from `requirements.txt`.
