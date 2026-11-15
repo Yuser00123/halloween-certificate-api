@@ -289,11 +289,7 @@ def generate_certificate(name: str, score_raw, total=None, date_str=None) -> Ima
     # glow
     draw.text((cx - nw / 2 + 3, name_y + 4), name, font=name_font, fill=(10, 8, 35, 220))
     draw.text((cx - nw / 2, name_y), name, font=name_font, fill=GOLD)
-    # underline flourish
-    ul_y = name_y + nh + int(H * 0.018)
-    ul_w = min(nw + 60, int(W * 0.52))
-    draw.line([(cx - ul_w / 2, ul_y), (cx + ul_w / 2, ul_y)], fill=ORANGE, width=4)
-    draw.polygon([(cx, ul_y - 6), (cx + 6, ul_y), (cx, ul_y + 6), (cx - 6, ul_y)], fill=ORANGE)
+    # (underline flourish removed — it cut through script names like "aarav")
 
     # --- "for successfully completing the Halloween Quiz" ---
     desc_font = get_font("poppins", int(H * 0.027))
